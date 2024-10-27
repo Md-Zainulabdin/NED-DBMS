@@ -1,10 +1,6 @@
-<img src="https://res.cloudinary.com/debz5a6uw/image/upload/v1730045005/portfolio/xaehbnhednqvzo3uglb3.jpg" style="width: 100%" alt="bg-img">
+# Welcome to NedDB - Your Own Database Management System
 
-<br>
-
-# Welcome to NEDDBMS - Your Own Database Management System
-
-NEDDBMS is a lightweight, command-line-based database management system designed to allow users to create, manage, and access databases with simple functionality. Users can create database, define fields, add records, and retrieve stored information.
+NedDB is a lightweight, command-line-based database management system designed to allow users to create, manage, and access databases with simple functionality. Users can create database, define fields, add records, and retrieve stored information.
 
 ## Features
 
@@ -16,7 +12,7 @@ NEDDBMS is a lightweight, command-line-based database management system designed
 
 ## Getting Started
 
-Follow these instructions to set up and run NEDDBMS on your local machine.
+Follow these instructions to set up and run NedDB on your local machine.
 
 ### Prerequisites
  - Python 3.x installed on your system.
