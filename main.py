@@ -10,11 +10,22 @@ def add_record(db_info: dict, db_records: list):
         print("Error: Database information or records are missing.")
         return
     
-    fields = db_info["fields"]
-    record = {field: input(f"Enter value for field '{field}': ") for field in fields}
-    db_records.append(record)
+    fields:dict = db_info["fields"]
+    record = {}
     
-    print("Record Added Successfully")
+    for key, length in fields.items():
+        field_value = input(f"Enter value for field '{key}': ")
+            
+        # Check if the input length exceeds the allowed length
+        if len(field_value) > int(length):
+            print(f"Error: Field '{key}' exceeds the maximum length of {length} characters.")
+            return
+            
+        record[key] = field_value  # Store the input in the record dictionary
+
+    # Add the validated record to the db_records list
+    db_records.append(record)
+    print("Record added successfully.")
     
     folder_path = f"databases/{db_info['name']}"
     records_file_path = os.path.join(folder_path, "records.txt")
@@ -36,12 +47,12 @@ def update_record(db_info: dict, db_records: list):
         print("Error: Database records are missing.")
         return None
     
-    fields = db_info["fields"]
+    fields:dict = db_info["fields"]
     
     print("List of all records: \n")
     for record in db_records:
-        for field in fields:
-            print(f"{field}: {record[field]}", end=", ")
+        for key in fields.keys():
+            print(f"{key}: {record[key]}, ")
         print()    
     
     record_id = input("\nPlease enter the record Id to update: ")
@@ -55,12 +66,16 @@ def update_record(db_info: dict, db_records: list):
         print("Record not found.")
         return
     
-    fields = [field for field in db_info["fields"] if field != "Id"]
+    fields = {field: value for field, value in fields.items() if "Id" not in field}
             
-    for field in fields:
-        new_value = input(f"Enter value for field '{field}': ")
-        if new_value:
-            record_to_update[field] = new_value
+    for key, length in fields.items():
+            #(or press Enter to keep current value)
+            new_value = input(f"Enter a new value for '{key}': ")        
+            # Check if the input length exceeds the allowed length
+            if len(new_value) > int(length):
+                print(f"Error: Field '{key}' exceeds the maximum length of {length} characters.")
+                return
+            record_to_update[key] = new_value 
             
     # Save the updated records back to records.txt
      
@@ -83,13 +98,13 @@ def list_records(db_info: dict, db_records: list):
         print("Error: Database records are missing.")
         return None
     
-    fields = db_info["fields"]
+    fields:dict = db_info["fields"]
     
     print("List of all records: \n")
     for record in db_records:
         print("-", end=" ")
-        for field in fields:
-            print(f"{field}: {record[field]}", end=", ")
+        for key in fields.keys():
+            print(f"{key}: {record[key]}", end=", ")
         print()  
     
 # Search specific record
@@ -102,7 +117,7 @@ def search_record(db_info: dict, db_records: list):
         print("Error: Database records are missing.")
         return None
     
-    fields = db_info["fields"]
+    fields:dict = db_info["fields"]
     
     record_id = input("\nPlease enter the record Id to search: ")
     
@@ -115,7 +130,7 @@ def search_record(db_info: dict, db_records: list):
         print("Record not found.")
         return
     
-    for field in fields:
+    for field in fields.keys():
         print(f"{field}: {record_to_search[field]}")
 
 # Delete specific record
@@ -158,8 +173,6 @@ def  delete_record(db_info: dict, db_records: list):
     return updated_records
     
 
-
-
 # Create Database
 def create_database():
     database_name = input("Please enter the name of your database: ")
@@ -172,7 +185,21 @@ def create_database():
     # Get field names
     try:
         num_fields = int(input("Please enter the number of fields you want to add: "))
-        field_names = ["Id"] + [input(f"Enter name of field {i + 1}: ") for i in range(num_fields)]
+        field_names =  {"Id": 12}
+      
+        for i in range(num_fields):
+            # Ask user to enter field name and length separated by a comma
+            user_input = input(f"Enter field {i+1} details in the format 'name,length' (e.g., name,4): ")
+    
+            # Split the input into field name and length
+            field_name, field_length = user_input.split(',')
+            
+            if not field_length.strip().isdigit():
+                print("Invalid input. Please enter a valid length for the field.")
+                return
+            
+            field_names[field_name.strip()] = int(field_length)
+
     except ValueError:
         print("Invalid input. Number of fields must be an integer.")
         return
