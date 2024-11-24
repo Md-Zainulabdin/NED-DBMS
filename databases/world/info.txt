@@ -2,8 +2,6 @@
     "name": "world",
     "fields": {
         "Id": 12,
-        "Name": 4,
-        "Email": 15,
-        "Age": 4
+        "Name": 15
     }
 }
