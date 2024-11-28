@@ -19,7 +19,7 @@ def add_record(db_info: dict, db_records: list):
     for key, length in fields.items():
         if key == "Id":
             continue  # Skip ID field (auto-generated)
-        field_value = input(f"Enter value for field '{key}': ")
+        field_value = input(f"Enter a value for '{key}' (Maximum {length} characters): ")
 
         # Check if the input length exceeds the allowed length
         if len(field_value) > int(length):
@@ -271,26 +271,28 @@ def open_database():
     database_records = read_database_records(database_name)
     
     if database_info:
-        print(f"Opening database '{database_info['name']}' with fields & length: {database_info['fields']}")
-        print("\nPress - 1 to Add record\nPress - 2 to Update existing record\nPress - 3 to Search record\nPress - 4 to List all records\nPress - 5 to Delete a records\nPress - 6 to Exit ")
+        print(f"Opening database '{database_info['name']}'")
+        while True:
+            print("\nPress - 1 to Add record\nPress - 2 to Update existing record\nPress - 3 to Search record\nPress - 4 to List all records\nPress - 5 to Delete a records\nPress - 6 to Exit ")
         
-        choice = input("\nPlease enter your choice: ").strip()
+            choice = input("\nPlease enter your choice: ").strip()
         
-        match choice:
-            case "1":
-                add_record(database_info, database_records)
-            case "2":
-                update_record(database_info, database_records)
-            case "3":
-                search_record(database_info, database_records)
-            case "4":
-                list_records(database_info, database_records)    
-            case "5":
-                delete_record(database_info, database_records)
-            case "6":
-                print(f"Exiting Database - {database_info['name']}")
-            case _:
-                print("Invalid choice. Please enter 1, 2, 3, 4, or 5.")    
+            match choice:
+                case "1":
+                    add_record(database_info, database_records)
+                case "2":
+                    update_record(database_info, database_records)
+                case "3":
+                    search_record(database_info, database_records)
+                case "4":
+                    list_records(database_info, database_records)    
+                case "5":
+                    delete_record(database_info, database_records)
+                case "6":
+                    print(f"Exiting Database - {database_info['name']}")
+                    break
+                case _:
+                    print("Invalid choice. Please enter 1, 2, 3, 4, or 5.")    
     else:
         print(f"Database '{database_name}' does not exist.")
 

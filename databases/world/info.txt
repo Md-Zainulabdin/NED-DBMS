@@ -1,7 +1,0 @@
-{
-    "name": "world",
-    "fields": {
-        "Id": 12,
-        "Name": 15
-    }
-}
